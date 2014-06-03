@@ -53,6 +53,10 @@ def initGrid(cell_dim, density, disease):
     printGrid(cell_dim, emptyGrid, 0)
 
 
+def compute3x3Block(location, grid, new_grid, birth_chance, spread_chance, disease_duration, mortality_rate):
+    """ Births and Disease Spread """
+
+
 def sim(grid_size, pop_density, disease, birth, spread, duration, mortality, days):
     initGrid(grid_size, pop_density, disease)
 
