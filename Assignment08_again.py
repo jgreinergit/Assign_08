@@ -11,7 +11,7 @@ HEALTHY = 0  # Occupied
 ZOMBIE = 1  # Infected
 
 
-def createEmptyGrid(cell_dim):
+def create_empty_grid(cell_dim):
     """ Creates an empty grid. """
 
     grid = dict()
@@ -21,14 +21,14 @@ def createEmptyGrid(cell_dim):
     return grid
 
 
-def checkProbability(value):
+def check_probability(value):
     if random.random() < value:
         return True
     else:
         False
 
 
-def printGrid(cell_dim, grid, day):
+def print_grid(cell_dim, grid, day):
     """ Prints current grid line by line to standard out. """
     print '\nDay: ' + str(day) + '\n'
     for x in range(cell_dim):
@@ -39,26 +39,33 @@ def printGrid(cell_dim, grid, day):
         print grid_for_print
 
 
-def initGrid(cell_dim, density, disease):
-    emptyGrid = createEmptyGrid(cell_dim)
+def init_grid(cell_dim, density, disease):
+    empty_grid = create_empty_grid(cell_dim)
     for x in range(cell_dim):
         for y in range(cell_dim):
-            if checkProbability(density) == True:
-                if checkProbability(disease) == True:
-                    emptyGrid[(x, y)] = ZOMBIE
+            if check_probability(density) == True:
+                if check_probability(disease) == True:
+                    empty_grid[(x, y)] = ZOMBIE
                 else:
-                    emptyGrid[(x, y)] = HEALTHY
+                    empty_grid[(x, y)] = HEALTHY
             else:
-                emptyGrid[(x, y)] = EMPTY
-    printGrid(cell_dim, emptyGrid, 0)
+                empty_grid[(x, y)] = EMPTY
+    print_grid(cell_dim, empty_grid, 0)
 
 
-def compute3x3Block(location, grid, new_grid, birth_chance, spread_chance, disease_duration, mortality_rate):
+def compute3x3(loc, grid, new_grid, birth_chance, spread_chance, disease_duration, mortality_rate):
     """ Births and Disease Spread """
+    #  Birth Chance
+    for x in range(loc[0]-1, loc[0]+2):
+        for y in range(loc[1]-1, loc[1]+2):
+            if (x, y) != loc:  # Look only at cells around center cell
+                print loc
+                # try:
+print compute3x3()
 
 
 def sim(grid_size, pop_density, disease, birth, spread, duration, mortality, days):
-    initGrid(grid_size, pop_density, disease)
+    init_grid(grid_size, pop_density, disease)
 
 
 def main():
