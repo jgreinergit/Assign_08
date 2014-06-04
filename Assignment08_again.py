@@ -50,26 +50,36 @@ def init_grid(cell_dim, density, disease):
                     empty_grid[(x, y)] = HEALTHY
             else:
                 empty_grid[(x, y)] = EMPTY
-    print_grid(cell_dim, empty_grid, 0)
+    return empty_grid
 
 
-def compute3x3(loc, grid, new_grid, birth_chance, spread_chance, disease_duration, mortality_rate):
+def compute3x3(loc, grid, new_grid, birth_chance):  # spread_chance, disease_duration, mortality_rate):
     """ Births and Disease Spread """
+    #  Help with 'try' and 'except' from https://docs.python.org/2/tutorial/errors.html
+    new_grid = ''
     #  Birth Chance
-    for x in range(loc[0]-1, loc[0]+2):
-        for y in range(loc[1]-1, loc[1]+2):
+    for x in range(loc[0] - 1, loc[0] + 2):
+        for y in range(loc[1] - 1, loc[1] + 2):
             if (x, y) != loc:  # Look only at cells around center cell
-                print loc
-                # try:
-print compute3x3()
+                print grid[x, y]
+                try:
+                    if grid[loc] == 
+                    if grid[x, y] == HEALTHY:
+                        if check_probability(birth_chance):
+                            print 'Birth'
+                            return new_grid[loc] == HEALTHY
+                except:
+                    pass
 
 
 def sim(grid_size, pop_density, disease, birth, spread, duration, mortality, days):
-    init_grid(grid_size, pop_density, disease)
+    grid = init_grid(grid_size, pop_density, disease)
+    print_grid(grid_size, grid, 0)
+    compute3x3((3, 3), grid, '', birth)
 
 
 def main():
-    sim(20, 0.15, 0.1, 0.1, 0.1, 3, 0.5, 500)
+    sim(20, 0.15, 0.1, 0.5, 0.1, 3, 0.5, 500)
 
 if __name__ == '__main__':
     main()
