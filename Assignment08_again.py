@@ -72,35 +72,45 @@ def compute3x3(loc, grid, new_grid, birth_chance, spread_chance):  # disease_dur
                         if grid[x, y] == HEALTHY:
                             if check_probability(birth_chance):
                                 new_grid[loc] = HEALTHY
-                                print 'Birth'
                             else:
                                 new_grid[loc] = EMPTY
                 except:
                     pass
-                #  Spread Chance
-                try:
-                    if grid[loc] == HEALTHY:
-                        if grid[x, y] == ZOMBIE:
-                            if check_probability(spread_chance):
-                                new_grid[grid] = ZOMBIE
-                            else:
-                                new_grid[loc] = HEALTHY
+                                #  Spread Chance
+                                try:
+                                    if grid[loc] == HEALTHY:
+                                        if grid[x, y] == ZOMBIE:
+                                            if check_probability(spread_chance):
+                                                new_grid[grid] = ZOMBIE
+                                            else:
+                                                new_grid[loc] = HEALTHY
                 except:
                     pass
+                if grid[loc] == ZOMBIE:
+                    new_grid[loc] = ZOMBIE
         return new_grid
 
 
 def sim(grid_size, pop_density, disease, birth, spread, duration, mortality, days):
     grid = init_grid(grid_size, pop_density, disease)
     print_grid(grid_size, grid, 0)
-    new_grid = create_empty_grid(grid_size)
-    new_grid = fill_new_grid_with_empty(grid_size, new_grid)
-    compute3x3((3, 3), grid, new_grid, birth, spread)
+    for day in range(1, days):
+        new_grid = create_empty_grid(grid_size)
+        new_grid = fill_new_grid_with_empty(grid_size, new_grid)
+        for x in range(grid_size):
+            for y in range(grid_size):
+                new_grid = compute3x3((x, y), grid, new_grid, birth, spread)
+        for key in grid.keys():
+            grid[key] = new_grid[key]
+
+        print_grid(grid_size, grid, day)
+
+
     
 
 
 def main():
-    sim(20, 0.15, 0.1, 0.5, 0.1, 3, 0.5, 500)
+    sim(20, 0.25, 0.5, 0.5, 0.1, 3, 0.5, 5)
 
 if __name__ == '__main__':
     main()
