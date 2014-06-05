@@ -21,6 +21,13 @@ def create_empty_grid(cell_dim):
     return grid
 
 
+def fill_new_grid_with_empty(cell_dim, new_grid):
+    for x in range(cell_dim):
+        for y in range(cell_dim):
+            new_grid[(x, y)] = EMPTY
+    return new_grid
+
+
 def check_probability(value):
     if random.random() < value:
         return True
@@ -53,29 +60,43 @@ def init_grid(cell_dim, density, disease):
     return empty_grid
 
 
-def compute3x3(loc, grid, new_grid, birth_chance):  # spread_chance, disease_duration, mortality_rate):
+def compute3x3(loc, grid, new_grid, birth_chance, spread_chance):  # disease_duration, mortality_rate):
     """ Births and Disease Spread """
     #  Help with 'try' and 'except' from https://docs.python.org/2/tutorial/errors.html
-    new_grid = ''
-    #  Birth Chance
     for x in range(loc[0] - 1, loc[0] + 2):
         for y in range(loc[1] - 1, loc[1] + 2):
             if (x, y) != loc:  # Look only at cells around center cell
-                print grid[x, y]
+                #  Birth Chance
                 try:
-                    if grid[loc] == 
-                    if grid[x, y] == HEALTHY:
-                        if check_probability(birth_chance):
-                            print 'Birth'
-                            return new_grid[loc] == HEALTHY
+                    if grid[loc] == EMPTY:
+                        if grid[x, y] == HEALTHY:
+                            if check_probability(birth_chance):
+                                new_grid[loc] = HEALTHY
+                                print 'Birth'
+                            else:
+                                new_grid[loc] = EMPTY
                 except:
                     pass
+                #  Spread Chance
+                try:
+                    if grid[loc] == HEALTHY:
+                        if grid[x, y] == ZOMBIE:
+                            if check_probability(spread_chance):
+                                new_grid[grid] = ZOMBIE
+                            else:
+                                new_grid[loc] = HEALTHY
+                except:
+                    pass
+        return new_grid
 
 
 def sim(grid_size, pop_density, disease, birth, spread, duration, mortality, days):
     grid = init_grid(grid_size, pop_density, disease)
     print_grid(grid_size, grid, 0)
-    compute3x3((3, 3), grid, '', birth)
+    new_grid = create_empty_grid(grid_size)
+    new_grid = fill_new_grid_with_empty(grid_size, new_grid)
+    compute3x3((3, 3), grid, new_grid, birth, spread)
+    
 
 
 def main():
